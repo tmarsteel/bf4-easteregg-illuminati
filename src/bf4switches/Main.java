@@ -46,7 +46,6 @@ public class Main {
             permutatedOrders.forEach(o -> {
                 orders.add(new SwitchOrder(o));
             });
-            orders.add(new SwitchOrder(Arrays.asList(sw)));
         });
         
         System.out.println("Found all Permutations; " + orders.size() + " permutations");
