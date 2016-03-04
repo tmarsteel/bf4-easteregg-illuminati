@@ -111,6 +111,7 @@ public class Main
             permutatedOrders.forEach(o -> {
                 orders.add(new SwitchOrder(o));
             });
+            orders.add(new SwitchOrder(Arrays.asList(sw)));
         });
         
         return orders;
