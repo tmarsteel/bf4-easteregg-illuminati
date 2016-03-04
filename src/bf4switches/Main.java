@@ -16,7 +16,7 @@ public class Main
 {
     public static void main(String... args) throws Exception
     {
-        String[] switchNames = new String[] { "Temple", "Tree", "Pagota", "Furnace", "Pier", "Waterfall", "Rock" };
+        String[] switchNames = new String[] { "(H) Temple", "Tree", "(B) Pagota / Shrein", "(C) Furnace", "(G) Pier", "Waterfall", "(E) Rock" };
         
         BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
         
@@ -56,7 +56,7 @@ public class Main
         else
         {
             for (Switch sw : solution.switchOrder)
-                System.out.print(sw.name + " ");
+                System.out.print(sw.name + "  ");
             System.out.println();
         }
     }
