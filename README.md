@@ -2,7 +2,10 @@
 
 ## Download
 
-Download the file BF4Switches.jar.
+Download the file BF4Switches.jar:
+
+1. Click on it in the list above.
+2. To the right there is a button that reads `Raw`. Click it.
 
 ## How to use
 
