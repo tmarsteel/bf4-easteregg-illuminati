@@ -14,17 +14,7 @@ public class LampArray
         
         initialOn.forEach(idx -> initialState[idx] = true);
     }
-    
-    public void setLampState(int lampIndex, boolean state)
-    {
-        lampStates[lampIndex] = state;
-    }
-    
-    public boolean getLampState(int lampIndex)
-    {
-        return lampStates[lampIndex];
-    }
-    
+
     public boolean allOn()
     {
         for (int n = 0;n < lampStates.length;n++)
