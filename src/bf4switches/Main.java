@@ -16,7 +16,7 @@ public class Main
 {
     public static void main(String... args) throws Exception
     {
-        String[] switchNames = new String[] { "Temple", "Tree", "Pagota", "Furnace", "Rock", "Pier", "Waterfall", "Rock" };
+        String[] switchNames = new String[] { "Temple", "Tree", "Pagota", "Furnace", "Pier", "Waterfall", "Rock" };
         
         BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
         
