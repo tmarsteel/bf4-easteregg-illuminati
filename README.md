@@ -1,4 +1,4 @@
-# BF4 Illumination Easer-Egg Solver
+# BF4 Illumination Easter-Egg Solver
 
 ## Download
 
