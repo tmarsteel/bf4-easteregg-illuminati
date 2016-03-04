@@ -9,12 +9,8 @@ Download the file BF4Switches.jar:
 
 ## How to use
 
-1. Open a command Promt: Press Windows + R, type `cmd` and hit enter
-2. Navigate to the folder to where you downloaded `BF4Switches.jar`
-  1. Open Expolorer (Windows + E)
-  2. Go to your downloads directory
-  3. Click in the top bar where the directories are listed. It turns into a text field. Copy everything from it.
-  4. In the console window, type: `cd /D "`, do a left click, type `"`; hit enter
+1. Navigate to the folder to where you downloaded `BF4Switches.jar` (usually your downloads directory)
+2. Click "File" and choose "Open command prompt"
 3. Type `java -jar BF4Switches.jar` and hit enter. Leave the console window open!
 4. Join a **unranked** Dragon-Valley server
 5. Take note of the Lamp numbers that are on by default
