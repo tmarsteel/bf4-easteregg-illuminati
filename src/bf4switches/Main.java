@@ -82,14 +82,19 @@ public class Main
         {
             System.out.println(prompt + " (space separated numbers):");
             
-            String[] numberStrs = r.readLine().split(" ");
+            String inputLine = r.readLine().trim();
+            
+            if (inputLine.isEmpty())
+                return new Integer[0];
+            
+            String[] numberStrs = inputLine.split(" ");
             Integer[] numbers = new Integer[numberStrs.length];
             
             try
             {
                 for (int n = 0;n < numberStrs.length;n++)
                 {
-                    numbers[n] = Integer.parseInt(numberStrs[n]) - 1;
+                    numbers[n] = Integer.parseInt(numberStrs[n].trim()) - 1;
                     if (numbers[n] > 19 || numbers[n] < 0)
                         throw new IllegalArgumentException();
                 }
