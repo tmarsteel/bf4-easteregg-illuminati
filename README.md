@@ -2,7 +2,7 @@
 
 ## Download
 
-Download the file bf4illu.jar.
+Download the file BF4Switches.jar.
 
 ## How to use
 
@@ -12,7 +12,7 @@ Download the file bf4illu.jar.
   2. Go to your downloads directory
   3. Click in the top bar where the directories are listed. It turns into a text field. Copy everything from it.
   4. In the console window, type: `cd /D "`, do a left click, type `"`; hit enter
-3. Type `java -jar bf4illu.jar` and hit enter. Leave the console window open!
+3. Type `java -jar BF4Switches.jar` and hit enter. Leave the console window open!
 4. Join a **unranked** Dragon-Valley server
 5. Take note of the Lamp numbers that are on by default
 6. Visit all the switches, one-by-one.
