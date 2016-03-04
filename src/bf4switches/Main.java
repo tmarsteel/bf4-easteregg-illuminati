@@ -5,42 +5,107 @@
  */
 package bf4switches;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Main {
-    
-    private static List<SwitchOrder> orders = new LinkedList<>();
-    
-    // CONFIG
-    private static final int nTurns = 1;
-    private static final boolean turnAll = false;
-    
+public class Main
+{
     public static void main(String... args) throws Exception
     {
-        // SWITCHES
+        String[] switchNames = new String[] { "Temple", "Tree", "Pagota", "Furnace", "Rock", "Pier", "Waterfall", "Rock" };
         
-        List<Switch> switches = new ArrayList<>();
-        switches.add(new Switch("Tempel",     Arrays.asList(4, 6, 12, 17)));
-        switches.add(new Switch("Fidschi",    Arrays.asList(4, 7, 9, 12, 19)));
-        switches.add(new Switch("Ofen",       Arrays.asList(3, 7, 9, 10, 19)));
-        switches.add(new Switch("Stein",      Arrays.asList(3, 10, 14, 19)));
-        switches.add(new Switch("Wasserfall", Arrays.asList(2, 5, 14, 16, 18)));
-        switches.add(new Switch("Pier",       Arrays.asList(0, 2, 6, 9, 12, 17)));
-        switches.add(new Switch("Baumstamm",  Arrays.asList(0, 1, 3, 6, 8, 10, 11, /*13, 15,*/ 17)));
+        BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
         
-        int nSwitches = switches.size();
-        for (int n = 2; n <= nTurns;n++)
+        final List<Integer> defaultOn = Arrays.asList(readNumberLine("On by default", r));
+        
+        LampArray lamps = new LampArray(defaultOn);
+        List<Switch> switches = new ArrayList<>(switchNames.length);
+        SwitchOrder solution = null;
+        
+        for (String switchName : switchNames)
         {
-            for (int i = 0;i < nSwitches;i++)
-            {
-                Switch t= switches.get(i);
-                switches.add(new Switch(t.name, Arrays.asList(t.affectedLamps)));
-            }
+            List<Integer> switchOn = Arrays.asList(readNumberLine("On with " + switchName + " switch ONLY", r));
+            
+            List<Integer> switchAffects = new ArrayList<>(20);
+            switchOn.forEach(lampOn -> {
+                if (!defaultOn.contains(lampOn))
+                    switchAffects.add(lampOn);
+            });
+            defaultOn.forEach(defOn -> {
+                if (!switchOn.contains(defOn))
+                    switchAffects.add(defOn);
+            });
+            
+            switches.add(new Switch(switchName, switchAffects));
+            
+            // try to find a solution
+            solution = findSolution(switches, lamps);
+            
+            if (solution != null)
+                break;
         }
         
+        if (solution == null)
+        {
+            System.out.println("No solution found :(");
+        }
+        else
+        {
+            for (Switch sw : solution.switchOrder)
+                System.out.print(sw.name + " ");
+            System.out.println();
+        }
+    }
+    
+    private static SwitchOrder findSolution(List<Switch> switches, LampArray lamps)
+    {
+        List<SwitchOrder> permutations = permutate(switches);
+        for (SwitchOrder order : permutations)
+        {
+            lamps.reset();
+            lamps.apply(order);
+
+            if (lamps.allOn())
+                return order;
+        }
+        return null;
+    }
+    
+    private static Integer[] readNumberLine(String prompt, BufferedReader r)
+        throws Exception
+    {
+        while (true)
+        {
+            System.out.println(prompt + " (space separated numbers):");
+            
+            String[] numberStrs = r.readLine().split(" ");
+            Integer[] numbers = new Integer[numberStrs.length];
+            
+            try
+            {
+                for (int n = 0;n < numberStrs.length;n++)
+                {
+                    numbers[n] = Integer.parseInt(numberStrs[n]) - 1;
+                    if (numbers[n] > 19 || numbers[n] < 0)
+                        throw new IllegalArgumentException();
+                }
+                
+                return numbers;
+            }
+            catch (IllegalArgumentException ex)
+            {
+                System.err.println("Invalid input, try again.");
+            }
+        }
+    }
+    
+    private static List<SwitchOrder> permutate(List<Switch> switches)
+    {
+        final List<SwitchOrder> orders = new LinkedList<>();
         switches.forEach(sw -> {
             List<List<Switch>> permutatedOrders = permutate(sw, switches);
             permutatedOrders.forEach(o -> {
@@ -49,44 +114,14 @@ public class Main {
             orders.add(new SwitchOrder(Arrays.asList(sw)));
         });
         
-        System.out.println("Found all Permutations; " + orders.size() + " permutations");
-        
-        Thread t = new Thread(() -> {
-            //final LampArray array = new LampArray(20, Arrays.asList(7, 9, 19));
-            final LampArray array = new LampArray(20, Arrays.asList(7, 9, 13, 15, 19));
-            int n = 0;
-            for (SwitchOrder order : orders)
-            {
-                array.reset();
-                array.apply(order);
-
-                if (array.allOn())
-                {
-                    System.out.println("Yeaah!");
-                    for (Switch sw : order.switchOrder)
-                    {
-                        System.out.println(sw.name);
-                    }
-                    System.out.println("----------");
-                }
-                
-                n++;
-                
-                if (n % (orders.size() / 10) == 0)
-                {
-                    System.out.println("Progress: " + (n * 100 / orders.size()) + "%");
-                }
-            }
-        });
-        t.start(); 
-        t.join();
+        return orders;
     }
     
-    public static List<List<Switch>> permutate(Switch firstSwitch, List<Switch> switches)
+    private static List<List<Switch>> permutate(Switch firstSwitch, List<Switch> allSwitches)
     {
         final LinkedList<Switch> remainingSwitches = new LinkedList<>();
         
-        switches.forEach(sw -> {
+        allSwitches.forEach(sw -> {
             if (firstSwitch != sw)
                 remainingSwitches.add(sw);
         });
@@ -105,18 +140,10 @@ public class Main {
             remainingSwitches.forEach(sw -> {
                 List<List<Switch>> subPermutations = permutate(sw, remainingSwitches);
                 subPermutations.forEach(permutation -> {
-                    if (turnAll)
-                    {
-                        permutation.add(0, sw);
-                        permutations.add(permutation);
-                    }
-                    else
-                    {
-                        permutations.add(permutation);
-                        List<Switch> copy = new LinkedList<Switch>(permutation);
-                        copy.add(0, sw);
-                        permutations.add(copy);
-                    }
+                    permutations.add(permutation);
+                    List<Switch> copy = new LinkedList<Switch>(permutation);
+                    copy.add(0, firstSwitch);
+                    permutations.add(copy);
                 });
             });
         }

@@ -7,10 +7,10 @@ public class LampArray
     private boolean[] lampStates;
     private boolean[] initialState;
     
-    public LampArray(int nLamps, List<Integer> initialOn)
+    public LampArray(List<Integer> initialOn)
     {
-        lampStates = new boolean[nLamps];
-        initialState = new boolean[nLamps];
+        lampStates = new boolean[20];
+        initialState = new boolean[20];
         
         initialOn.forEach(idx -> initialState[idx] = true);
     }
