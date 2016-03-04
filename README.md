@@ -14,6 +14,7 @@ Download the file BF4Switches.jar:
 3. Type `java -jar BF4Switches.jar` and hit enter. Leave the console window open!
 4. Join a **unranked** Dragon-Valley server
 5. Take note of the Lamp numbers that are on by default
+6. Type the numbers on the console window, separated by spaces (e.g. `7 3 1`)
 6. Visit all the switches, one-by-one.
   1. Turn on a switch. Note down the numbers of the lamps that are lit
   2. Turn off the switch
